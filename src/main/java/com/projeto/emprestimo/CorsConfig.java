@@ -17,7 +17,7 @@ public class CorsConfig {
                 registry.addMapping("/**")
                         .allowedOrigins(
                                 "http://localhost:5173",
-                                "https://sistema-emprestimo-equipamentos-xqqy.onrender.com"
+                                "https://sistema-emprestimo-frontend.vercel.app"
                         )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*");
