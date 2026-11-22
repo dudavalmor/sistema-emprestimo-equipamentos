@@ -111,16 +111,18 @@ Exemplo:
 1. Clone o repositório:
 
 ```bash
-git clone URL_DO_REPOSITORIO
+git clone https://github.com/dudavalmor/sistema-emprestimo-equipamentos.git
 ```
 
 2. Entre na pasta do projeto:
 
 ```bash
-cd emprestimo
+cd sistema-emprestimo-equipamentos
 ```
 
 3. Execute a aplicação:
+
+No Linux ou macOS:
 
 ```bash
 ./mvnw spring-boot:run
@@ -144,14 +146,15 @@ O Hibernate está configurado com `ddl-auto=update`, permitindo atualizar a estr
 
 O console H2 está habilitado para consultas e inspeção do banco durante o desenvolvimento.
 
-## Testes
+## Testes automatizados
 
 Foram implementados testes automatizados utilizando JUnit 5.
 
 - `EquipamentoTest`: 3 testes.
 - `EmprestimoTest`: 7 testes.
+- `EmprestimoApplicationTests`: 1 teste.
 
-**Total: 10 testes automatizados aprovados.**
+**Total: 11 testes automatizados aprovados na última execução.**
 
 Para executar os testes:
 
@@ -159,19 +162,32 @@ Para executar os testes:
 ./mvnw test
 ```
 
-## Tratamento de erros
+No Windows:
 
-A API utiliza exceções personalizadas e um tratamento global de erros com `@RestControllerAdvice`.
+```bash
+mvnw.cmd test
+```
 
-Principais respostas HTTP:
+## Deploy
 
-- `200 OK`: operação realizada com sucesso.
-- `201 Created`: recurso cadastrado.
-- `400 Bad Request`: dados inválidos.
-- `404 Not Found`: recurso não encontrado.
-- `409 Conflict`: conflito com uma regra de negócio.
+A aplicação está publicada no Render.
+
+**URL da API:**
+
+https://sistema-emprestimo-equipamentos-xqqy.onrender.com
+
+Exemplo de acesso:
+
+`https://sistema-emprestimo-equipamentos-xqqy.onrender.com/equipamentos`
+
+## Repositório
+
+GitHub:
+
+https://github.com/dudavalmor/sistema-emprestimo-equipamentos
 
 ## Autora
+
 Eduarda Valmor
 
 Desenvolvido como projeto de estudo, com foco em lógica de programação, desenvolvimento de APIs REST, Java e Spring Boot.
