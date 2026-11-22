@@ -1,112 +1,49 @@
-# Sistema de Empréstimo de Equipamentos
+# Sistema de Empréstimo de Equipamentos — Backend
 
-API REST desenvolvida com Java e Spring Boot para gerenciar o empréstimo e a devolução de equipamentos de uma empresa.
-
-O sistema permite cadastrar equipamentos e colaboradores, registrar empréstimos, controlar devoluções e identificar empréstimos em atraso, aplicando regras de negócio para garantir a integridade das operações.
+API REST desenvolvida com **Java e Spring Boot** para gerenciar equipamentos, colaboradores e empréstimos, permitindo controlar a disponibilidade dos equipamentos e acompanhar suas devoluções.
 
 ## Tecnologias utilizadas
 
 - Java 25
-- Spring Boot 4.1.2
+- Spring Boot
 - Spring Data JPA
-- Hibernate
-- Banco de dados H2
+- Spring Web MVC
+- Spring Validation
 - Maven
-- JUnit 5
-- Jakarta Validation
+- PostgreSQL
+- H2 Database
 
 ## Funcionalidades
 
-### Equipamentos
-- Cadastrar equipamentos.
-- Listar todos os equipamentos.
-- Buscar equipamento por ID.
-- Atualizar informações de equipamentos.
-- Excluir equipamentos sem histórico de empréstimos.
-- Filtrar equipamentos por tipo e disponibilidade.
-
-### Colaboradores
-- Cadastrar colaboradores.
-- Listar colaboradores.
-- Buscar colaborador por ID.
-- Consultar empréstimos de um colaborador.
-
-### Empréstimos
-- Registrar empréstimos de equipamentos.
-- Consultar empréstimos.
-- Buscar empréstimo por ID.
-- Registrar devoluções.
-- Consultar empréstimos em atraso.
-
-## Regras de negócio
-
-O sistema implementa as seguintes regras:
-
-1. Não permite cadastrar equipamentos com patrimônio duplicado.
-2. Todo equipamento novo é cadastrado como disponível.
-3. Não permite cadastrar colaboradores com e-mail duplicado.
-4. Somente equipamentos disponíveis podem ser emprestados.
-5. O prazo de devolução é de 14 dias após a data do empréstimo.
-6. Não permite devolver um empréstimo mais de uma vez.
-7. Ao registrar uma devolução, o equipamento volta a ficar disponível.
-8. Identifica empréstimos não devolvidos cuja data prevista já passou.
-9. Não permite excluir equipamentos que possuem histórico de empréstimos.
-10. Não permite que colaboradores com empréstimos atrasados realizem novos empréstimos.
+- Cadastro, consulta, atualização e exclusão de equipamentos.
+- Cadastro e consulta de colaboradores.
+- Registro de empréstimos.
+- Registro de devoluções.
+- Controle de disponibilidade dos equipamentos.
+- Consulta de empréstimos por colaborador.
+- Identificação de empréstimos em atraso.
+- Persistência de dados com PostgreSQL em produção.
 
 ## Endpoints principais
 
-### Equipamentos — `/equipamentos`
-
 | Método | Endpoint | Descrição |
 |---|---|---|
-| POST | `/equipamentos` | Cadastrar equipamento |
-| GET | `/equipamentos` | Listar equipamentos |
-| GET | `/equipamentos/{id}` | Buscar por ID |
-| PUT | `/equipamentos/{id}` | Atualizar equipamento |
-| DELETE | `/equipamentos/{id}` | Excluir equipamento |
+| GET | `/equipamentos` | Lista equipamentos |
+| POST | `/equipamentos` | Cadastra equipamento |
+| PUT | `/equipamentos/{id}` | Atualiza equipamento |
+| DELETE | `/equipamentos/{id}` | Remove equipamento |
+| GET | `/colaboradores` | Lista colaboradores |
+| POST | `/colaboradores` | Cadastra colaborador |
+| GET | `/colaboradores/{id}/emprestimos` | Consulta empréstimos do colaborador |
+| GET | `/emprestimos` | Lista empréstimos |
+| POST | `/emprestimos` | Registra empréstimo |
+| PUT | `/emprestimos/{id}/devolucao` | Registra devolução |
 
-Filtros disponíveis:
-- `tipo`
-- `disponivel`
+## Executar localmente
 
-Exemplo:
-
-`GET /equipamentos?tipo=NOTEBOOK&disponivel=true`
-
-### Colaboradores — `/colaboradores`
-
-| Método | Endpoint | Descrição |
-|---|---|---|
-| POST | `/colaboradores` | Cadastrar colaborador |
-| GET | `/colaboradores` | Listar colaboradores |
-| GET | `/colaboradores/{id}` | Buscar por ID |
-| GET | `/colaboradores/{id}/emprestimos` | Consultar empréstimos do colaborador |
-
-### Empréstimos — `/emprestimos`
-
-| Método | Endpoint | Descrição |
-|---|---|---|
-| POST | `/emprestimos` | Registrar empréstimo |
-| GET | `/emprestimos` | Listar empréstimos |
-| GET | `/emprestimos/{id}` | Buscar por ID |
-| PUT | `/emprestimos/{id}/devolucao` | Registrar devolução |
-
-Filtro disponível:
-- `atrasados`
-
-Exemplo:
-
-`GET /emprestimos?atrasados=true`
-
-## Como executar o projeto
-
-### Pré-requisitos
-
-- Java 25 instalado.
-- Maven instalado ou utilização do Maven Wrapper.
-- IDE de sua preferência, como IntelliJ IDEA.
-
-### Executando localmente
+**Pré-requisitos:**
+- Java 25 ou compatível com a configuração do projeto.
+- Maven.
 
 1. Clone o repositório:
 
@@ -114,7 +51,7 @@ Exemplo:
 git clone https://github.com/dudavalmor/sistema-emprestimo-equipamentos.git
 ```
 
-2. Entre na pasta do projeto:
+2. Entre na pasta:
 
 ```bash
 cd sistema-emprestimo-equipamentos
@@ -122,72 +59,26 @@ cd sistema-emprestimo-equipamentos
 
 3. Execute a aplicação:
 
-No Linux ou macOS:
-
 ```bash
-./mvnw spring-boot:run
+mvn spring-boot:run
 ```
 
-No Windows:
-
-```bash
-mvnw.cmd spring-boot:run
-```
-
-4. Acesse a API:
+A API ficará disponível em:
 
 `http://localhost:8080`
 
 ## Banco de dados
 
-O projeto utiliza o banco de dados H2, configurado em modo arquivo para persistência local.
-
-O Hibernate está configurado com `ddl-auto=update`, permitindo atualizar a estrutura das tabelas conforme as entidades.
-
-O console H2 está habilitado para consultas e inspeção do banco durante o desenvolvimento.
-
-## Testes automatizados
-
-Foram implementados testes automatizados utilizando JUnit 5.
-
-- `EquipamentoTest`: 3 testes.
-- `EmprestimoTest`: 7 testes.
-- `EmprestimoApplicationTests`: 1 teste.
-
-**Total: 11 testes automatizados aprovados na última execução.**
-
-Para executar os testes:
-
-```bash
-./mvnw test
-```
-
-No Windows:
-
-```bash
-mvnw.cmd test
-```
+- Desenvolvimento: H2 Database.
+- Produção: PostgreSQL hospedado no Render.
+- Configuração de produção realizada por meio de variáveis de ambiente.
 
 ## Deploy
 
-A aplicação está publicada no Render.
-
-**URL da API:**
+API publicada no Render:
 
 https://sistema-emprestimo-equipamentos-xqqy.onrender.com
 
-Exemplo de acesso:
-
-`https://sistema-emprestimo-equipamentos-xqqy.onrender.com/equipamentos`
-
-## Repositório
-
-GitHub:
-
-https://github.com/dudavalmor/sistema-emprestimo-equipamentos
-
 ## Autora
 
-Eduarda Valmor
-
-Desenvolvido como projeto de estudo, com foco em lógica de programação, desenvolvimento de APIs REST, Java e Spring Boot.
+Desenvolvido por **Eduarda** como projeto de estudo e prática de desenvolvimento backend com Java e Spring Boot.
